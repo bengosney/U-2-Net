@@ -49,7 +49,15 @@ def save_output(image_name,pred,d_dir):
     for i in range(1,len(bbb)):
         imidx = imidx + "." + bbb[i]
 
-    imo.save(d_dir+imidx+'.png')
+    mask_name = f'{d_dir}{imidx}.png'
+    imo.save(mask_name)
+
+    print(f'Image name {image_name}')
+
+    org = Image.open(image_name)
+    mask = Image.open(mask_name).convert('L')
+    org.putalpha(mask)
+    org.save(d_dir+imidx+'_masked.png')
 
 def main():
 
